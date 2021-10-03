@@ -324,7 +324,7 @@ ssp_autochenkin() {
                     checkin_log_text="签到状态: 签到失败, 请检查是否存在签到验证码"
                 fi
 
-                result_log_text="${login_log_text}${checkin_log_text}${user_log_text}"
+                result_log_text="${checkin_log_text}${user_log_text}"
             else
 
                 result_log_text="${login_log_text}签到状态: 登录失败, 请检查配置"
@@ -336,12 +336,12 @@ ssp_autochenkin() {
                 echo -e "\nHidden the logs, please view notify messages."
             fi
 
-            log_text="${log_text}\n${result_log_text}"
+            log_text="${result_log_text}"
 
             user_count=$(expr ${user_count} + 1)
         done
 
-        # log_text="${log_text}\n\n免费使用自: https://github.com/isecret/sspanel-autocheckin"
+        log_text="${log_text}"
 
         send_message
 
