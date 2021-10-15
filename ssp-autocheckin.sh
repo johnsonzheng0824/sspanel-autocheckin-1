@@ -194,7 +194,7 @@ send_message() {
         echo -e "token=${PUSHPLUS_TOKEN}&title=${TITLE}&content=${log_text}" >${PUSH_TMP_PATH}
         push=$(curl -k -s --data-binary @${PUSH_TMP_PATH} "http://pushplus.hxtrip.com/send")
         push_code=$(echo ${push} | jq -r ".code" 2>&1)
-        if [[ ${push_code} -eq 200 ]]; then
+        if [ ${push_code} -eq 200 ]; then
             echo -e "PushPlus 推送结果: 成功"
         else
             echo -e "PushPlus 推送结果: 失败"
@@ -262,10 +262,10 @@ ssp_autochenkin() {
             login_code=$(echo ${login} | jq -r '.ret' 2>&1)
             login_status=$(echo ${login} | jq -r '.msg' 2>&1)
 
-            login_log_text="\n用户 ${user_count}\n"
-            login_log_text="${login_log_text}签到站点: ${domain_text}\n"
-            login_log_text="${login_log_text}签到用户: ${username_text}\n"
-            login_log_text="${login_log_text}签到时间: ${start_time}\n"
+            # login_log_text="\n用户 ${user_count}\n"
+            # login_log_text="${login_log_text}签到站点: ${domain_text}\n"
+            # login_log_text="${login_log_text}签到用户: ${username_text}\n"
+            # login_log_text="${login_log_text}签到时间: ${start_time}\n"
 
             if [ "${login_code}" == "1" ]; then
                 userinfo=$(curl -k -s -G -b ${COOKIE_PATH} "${domain}/getuserinfo")
@@ -324,7 +324,7 @@ ssp_autochenkin() {
                     checkin_log_text="签到状态: 签到失败, 请检查是否存在签到验证码"
                 fi
 
-                result_log_text="${login_log_text}${checkin_log_text}${user_log_text}"
+                result_log_text="${checkin_log_text}${user_log_text}"
             else
 
                 result_log_text="${login_log_text}签到状态: 登录失败, 请检查配置"
@@ -336,12 +336,12 @@ ssp_autochenkin() {
                 echo -e "\nHidden the logs, please view notify messages."
             fi
 
-            log_text="${log_text}\n${result_log_text}"
+            log_text="${result_log_text}"
 
             user_count=$(expr ${user_count} + 1)
         done
 
-        log_text="${log_text}\n\n免费使用自: https://github.com/isecret/sspanel-autocheckin"
+        log_text="${log_text}"
 
         send_message
 
